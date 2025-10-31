@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crea tu Foto </title> 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+   
+    :root {
+      --primary-color: #29ABE2;
+      --secondary-color: #34495E;
+      --text-color: #ECF0F1;
+      --bg-color: #2C3E50; 
+      --accent-color: #F39C12; 
+      --shadow-color: rgba(0, 0, 0, 0.3);
+      --border-radius: 8px;
+      --font-family: 'Poppins', sans-serif;
+      --dancing-script: 'Dancing Script', cursive;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: var(--primary-color);
+      color: var(--bg-color);
+      text-align: center;
+      padding: 20px;
+      box-shadow: 0 2px 5px var(--shadow-color);
+    }
+
+    main {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: flex-start;
+    }
+
+    section {
+      background-color: var(--secondary-color);
+      border-radius: var(--border-radius);
+      box-shadow: 0 3px 8px var(--shadow-color);
+      padding: 20px;
+      margin: 10px;
+    }
+
+    #editor {
+      width: 100%; 
+      max-width: 600px; 
+      margin: 20px auto; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #foto-container {
+      width: 100%;
+      max-width: 400px;
+      border: 1px solid #555;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    #foto-preview {
+      width: 100%;
+      display: block;
+    }
+
+    #controles {
+      width: 100%;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    input[type="text"],
+    input[type="file"] {
+      width: 80%;
+      padding: 10px;
+      border: 1px solid #555;
+      border-radius: var(--border-radius);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      outline: none;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: var(--bg-color);
+      border: none;
+      border-radius: var(--border-radius);
+      padding: 12px 24px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #228FB8;
+    }
+
+    footer {
+      background-color: var(--secondary-color);
+      text-align: center;
+      padding: 20px;
+      box-shadow: 0 -2px 5px var(--shadow-color);
+    }
+
+  
+    #donacion {
+      margin-top: 20px;
+      padding: 20px;
+      text-align: center;
+    }
+
+   
+    @media (max-width: 768px) {
+      main {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #editor {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Crea tu Foto </h1>
+  </header>
+
+  <main>
+    <section id="editor">
+      <div id="foto-container">
+        <img id="foto-preview" src="placeholder.jpg" alt="Foto" />
+      </div>
+
+      <div id="controles">
+        <div class="form-group">
+          <label for="frase-usuario">Escribe tu propia frase:</label>
+          <input type="text" id="frase-usuario" placeholder="Escribe tu frase aquí">
+        </div>
+
+        <div class="form-group">
+          <label for="cargar-foto">Cargar tu foto:</label>
+          <input type="file" id="cargar-foto" accept="image/*">
+        </div>
+
+        <div class="button-container">
+          <button onclick="combinarFotoYMarco()">Guardar</button>
+          <button onclick="compartirEnRedSocial1()">Compartir en Facebook</button>
+          <button onclick="compartirEnRedSocial2()">Compartir en Instagram</button>
+          <button onclick="compartirEnRedSocial3()">Compartir en Snapchat</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <section id="donacion">
+      <h2>Si deseas apoyar a la Cruz Roja Mexicana, puedes donar a la siguiente cuenta:</h2> <!-- Frase de donación modificada -->
+      <p><b>Cuenta:</b> 0404040406</p>
+      <p><b>Clave interbancaria:</b> 012180004040404062</p>
+      <p><b>Banco:</b> BBVA Bancomer</p>
+      <p><b>A nombre de:</b> Cruz Roja Mexicana IAP</p>
+    </section>
+  </footer>
+
+  <script>
+    // --- JavaScript ---
+    const fotoPreview = document.getElementById("foto-preview");
+    const cargarFotoInput = document.getElementById("cargar-foto");
+
+    cargarFotoInput.addEventListener("change", function() {
+      const file = this.files[0]; // Obtiene el archivo seleccionado
+      if (file) {
+        const reader = new FileReader(); // Crea un objeto FileReader
+        reader.addEventListener("load", function() {
+          fotoPreview.src = this.result; // Asigna la URL de datos a la imagen
+        });
+        reader.readAsDataURL(file); // Lee el archivo como una URL de datos
+      }
+    });
+
+    function combinarFotoYMarco() {
+      const fotoPreview = document.getElementById("foto-preview");
+      const fraseUsuarioInput = document.getElementById("frase-usuario");
+      const fraseUsuario = fraseUsuarioInput.value;
+
+      // Crear un elemento canvas
+      const canvas = document.createElement('canvas');
+      canvas.width = fotoPreview.width;
+      canvas.height = fotoPreview.height;
+      const ctx = canvas.getContext('2d');
+
+      // Dibujar la foto cargada por el usuario
+      ctx.drawImage(fotoPreview, 0, 0, canvas.width, canvas.height);
+
+      // Escribir la frase del usuario (si hay una)
+      if (fraseUsuario) {
+        escribirFrase(ctx, fraseUsuario, canvas.width, canvas.height);
+      }
+
+      // Generar y descargar la imagen
+      generarDescarga(canvas);
+    }
+
+    function escribirFrase(ctx, frase, width, height) {
+      ctx.font = "42px 'Dancing Script', cursive"; // Fuente más elegante y tamaño más grande
+      ctx.fillStyle = '#F0F8FF'; // Cambiar el color a un tono azulado
+      ctx.textAlign = "center";
+      ctx.shadowColor = "black"; // Sombra para mejor legibilidad
+      ctx.shadowBlur = 7;
+      ctx.lineWidth = 3
+
+      // Ajusta la posición y el tamaño de la fuente según tus necesidades
+      ctx.fillText(frase, width / 2, height - 50); // Coloca la frase en la parte inferior de la imagen
+    }
+
+    function generarDescarga(canvas) {
+      const dataURL = canvas.toDataURL("image/png");
+      const downloadLink = document.createElement("a");
+      downloadLink.href = dataURL;
+      downloadLink.download = "foto_con_frase.png";
+      downloadLink.textContent = "Descargar foto";
+      downloadLink.style.display = "none"; // Oculta el enlace de descarga
+      document.body.appendChild(downloadLink);
+      downloadLink.click(); // Simula un clic en el enlace para iniciar la descarga
+      document.body.removeChild(downloadLink); // Elimina el enlace después de la descarga
+    }
+
+    function compartirEnRedSocial1() {
+      window.location.href = "https://es-la.facebook.com/.";
+    }
+
+    function compartirEnRedSocial2() {
+      window.location.href = "https://www.instagram.com/";
+    }
+
+    function compartirEnRedSocial3() {
+      window.location.href = "https://www.snapchat.com/";
+    }
+  </script>
+</body>
+</html>
